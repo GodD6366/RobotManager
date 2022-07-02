@@ -144,13 +144,9 @@ export default function Robots(
           <ModalCloseButton />
           <ModalBody>
             <CodeMirror
-              value={currentRule.function}
-              height="50vh"
-              extensions={[javascript({ js: true })]}
-              options={{
-                keyMap: 'sublime',
-                mode: 'ts',
-              }}
+              value={currentRule.function as unknown as string}
+              height='50vh'
+              extensions={[javascript({ typescript: true })]}
               placeholder='function index(data){}'
               onChange={onRuleCodeChange}
             />

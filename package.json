@@ -16,6 +16,7 @@
     "db:migrate": "prisma migrate dev --schema ./prisma/$DB_TYPE/schema.prisma",
     "db:format": "prisma format --schema ./prisma/pgsql/schema.prisma && prisma format --schema ./prisma/sqlite/schema.prisma",
     "build": "next build",
+    "build:without-migrate": "npm run db:generate && next build",
     "start": "next start"
   },
   "dependencies": {
