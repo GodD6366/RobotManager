@@ -1,18 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../utils/prisma';
 import { MyNextApiResponse, nc } from '../../../../service';
-import { nanoid } from 'nanoid';
 
 export default nc().post(
   async (req: NextApiRequest, res: MyNextApiResponse) => {
     const data = req.body;
-    const webhook = await prisma.webhook.create({
+    await prisma.rule.update({
+      where: {
+        id: data.id,
+      },
       data: {
-        name: data.name,
-        robotId: data.robotId,
-        token: nanoid(),
+        func: data.func,
       },
     });
-    return res.success(webhook);
+
+    return res.success();
   },
 );

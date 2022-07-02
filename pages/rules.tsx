@@ -23,8 +23,9 @@ import { javascript } from '@codemirror/lang-javascript';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useEffect, useState } from 'react';
 import { get, post } from '../client';
-import { Prisma } from '@prisma/client';
+import { Prisma, Rule } from '@prisma/client';
 import { utcDayjs } from '../utils';
+import CreateRules from '../client/component/rule/createRules';
 
 async function fetchRobots() {
   const res = await get('b/rule/query');
@@ -35,14 +36,14 @@ async function fetchRobots() {
 export default function Robots(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
-  const [robots, setRobots] = useState<Array<Prisma.RuleSelect>>([]);
-  const [currentRule, setCurrentRule] = useState<Prisma.RuleSelect>({});
+  const [rules, setRules] = useState<Array<Rule>>([]);
+  const [currentRule, setCurrentRule] = useState<Rule>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     (async () => {
       const robots = await fetchRobots();
-      setRobots(robots);
+      setRules(robots);
     })();
     return () => {};
   }, []);
@@ -53,9 +54,9 @@ export default function Robots(
   }
 
   async function onRuleUpdate() {
-    const result = await post('b/robot/update', {
+    const result = await post('b/rule/update', {
       id: currentRule.id,
-      function: tempcode,
+      func: tempcode,
     });
     const json = await result.json();
     if (json.success) {
@@ -73,6 +74,8 @@ export default function Robots(
         justify='center'
         direction='column'
       >
+        <CreateRules></CreateRules>
+
         <Center w='90%' mb='50px' style={{ overflow: 'auto' }}>
           <Table variant='striped' colorScheme='telegram'>
             <TableCaption>power by firebase</TableCaption>
@@ -88,7 +91,7 @@ export default function Robots(
             </Thead>
 
             <Tbody>
-              {robots.map((robot, idx) => {
+              {rules.map((robot, idx) => {
                 return (
                   <Tr key={idx}>
                     <Td>{robot.name}</Td>
@@ -144,7 +147,7 @@ export default function Robots(
           <ModalCloseButton />
           <ModalBody>
             <CodeMirror
-              value={currentRule.function as unknown as string}
+              value={currentRule?.func}
               height='50vh'
               extensions={[javascript({ typescript: true })]}
               placeholder='function index(data){}'

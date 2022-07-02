@@ -10,3 +10,5 @@ dayjs.tz.setDefault(TZ);
 export function utcDayjs(args?: any) {
   return dayjs.tz(args);
 }
+
+export * from './const';

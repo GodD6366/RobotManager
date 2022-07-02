@@ -68,7 +68,7 @@ model Rule {
   priority Int     @default(1000)
   // 判断是否匹配此策略
   type     Int     @default(1)
-  function String?
+  func     String?
   webhook  String?
   text     String?
 

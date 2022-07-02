@@ -38,7 +38,7 @@ async function main() {
   console.log(`start mock rule ...`);
   const rule: Prisma.RuleCreateInput = {
     name: 'test',
-    function: `function index() {
+    func: `function index() {
               return {
                   message: 'hello world'
               }
