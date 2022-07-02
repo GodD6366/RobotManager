@@ -95,9 +95,9 @@ steps:
         - failure
         - success
 
-trigger:
-  branch:
-  - main
+# trigger:
+#   branch:
+#   - main
 
 volumes:
    - name: cache
