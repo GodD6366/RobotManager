@@ -1,0 +1,105 @@
+kind: pipeline
+type: docker
+name: deploy-server
+
+platform:
+  os: linux
+  arсh: amd64
+  
+steps:
+  - name: build-image
+    pull: if-not-exists
+    image: plugins/docker
+    settings:
+      mirror: https://docker.mirrors.ustc.edu.cn
+      storage_driver: vfs
+      cache_from: hub2.godd.site:7443/server/robot-manager:latest
+      dockerfile: Dockerfile
+      repo: hub2.godd.site:7443/server/robot-manager
+      registry: hub2.godd.site:7443
+      tags: 
+        - latest
+        - ${DRONE_BUILD_NUMBER}
+    when:
+      event:
+        include:
+        - push
+        - tag
+
+  - name: update-docker-compose
+    pull: if-not-exists
+    image: node
+    settings:
+      mirror: https://docker.mirrors.ustc.edu.cn
+    commands:
+      - node scripts/update.js --version ${DRONE_BUILD_NUMBER}
+    when:
+      event:
+        include:
+        - push
+        - tag
+
+  - name: scp-docker-compose-cloud
+    pull: if-not-exists
+    image: appleboy/drone-scp
+    settings:
+      host:
+        from_secret: host_ip
+      username:
+        from_secret: username
+      password:
+        from_secret: password
+      port: 22
+      target: /home/godd/.drone/robot-manager/${DRONE_BUILD_NUMBER}
+      source:
+        - docker-compose.yaml
+    when:
+      event:
+        include:
+        - push
+        - tag
+
+  - name: deploy-container-cloud
+    pull: if-not-exists
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: host_ip
+      username:
+        from_secret: username
+      password:
+        from_secret: password
+      port: 22
+      script:
+        - export PATH=$HOME/bin:/usr/local/bin:/usr/syno/sbin:/usr/syno/bin:/usr/local/sbin:/usr/local/bin:$PATH
+        - docker pull hub2.godd.site:7443/server/robot-manager:${DRONE_BUILD_NUMBER}
+        - list=$(docker ps -a| grep robot-manager | awk '{print $1}')
+        - test "$list" = "" && echo "none robot-manager containers running" || docker rm $list -f
+        - imglist=$(docker images | grep robot-manager | awk '{print $3}')
+        - test "$imglist" = "" && echo "none robot-manager images" || docker rmi $imglist -f
+        - cd /home/godd/.drone/robot-manager/${DRONE_BUILD_NUMBER}
+        - docker-compose up -d
+    when:
+      event:
+        include:
+        - push
+        - tag
+
+  - name: send
+    image: plugins/webhook
+    settings:
+      urls: 
+        - https://godd-home.vercel.app/api/webhook/drone
+    when: # 无论成功失败都运行
+      status:
+        - failure
+        - success
+
+trigger:
+  branch:
+  - main
+
+volumes:
+   - name: cache
+     host:
+       path: /tmp

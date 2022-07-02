@@ -43,15 +43,15 @@ export default nc().post(
             type: robotType.type,
             data,
           });
+
+          const telegramBot = new TelegramBot(robot.token);
+          await telegramBot.sendMessage(result, data.message.chat.id);
         }
 
         if (result) {
           break;
         }
       }
-
-      const telegramBot = new TelegramBot(robot.token);
-      await telegramBot.sendMessage(result);
     }
 
     return res.success();
