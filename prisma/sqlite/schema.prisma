@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       String   @map(name: "user_id")
+  expires      DateTime
+  sessionToken String   @unique @map(name: "session_token")
+  accessToken  String   @unique @map(name: "access_token")
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+
+  @@map(name: "sessions")
+}
+
+model User {
+
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  pwd   String?
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  @@map(name: "users")
+}
+
+model RobotType {
+  id    Int     @id @default(autoincrement())
+  type  String
+  name  String
+  Robot Robot[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@map(name: "robot_types")
+}
+
+model Robot {
+  id          Int       @id @default(autoincrement())
+  name        String
+  // 关联类型
+  robotTypeId Int
+  RobotType   RobotType @relation(fields: [robotTypeId], references: [id])
+  // 关联所有者
+  ownerId     Int
+  // 关联规则
+  Rule        Rule[]
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@map(name: "robots")
+}
+
+model Rule {
+  id       Int     @id @default(autoincrement())
+  name     String
+  priority Int     @default(1000)
+  type     Int     @default(1)
+  function String?
+  webhook  String?
+  text     String?
+
+  robotId Int?
+  Robot   Robot? @relation(fields: [robotId], references: [id])
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@map(name: "rules")
+}

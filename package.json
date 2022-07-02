@@ -1,0 +1,51 @@
+{
+  "name": "robot-manager",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "DB_TYPE=sqlite npm run dev:general",
+    "dev:pg": "DB_TYPE=pgsql npm run dev:general",
+    "dev:general": "npm run db:deploy && npm run db:generate && next dev",
+    "db:deploy": "prisma migrate deploy --schema ./prisma/$DB_TYPE/schema.prisma",
+    "db:generate": "prisma generate --schema ./prisma/$DB_TYPE/schema.prisma",
+    "db:init:pg": "DB_TYPE=pgsql npm run db:migrate",
+    "db:migrate": "prisma migrate dev --schema ./prisma/$DB_TYPE/schema.prisma",
+    "db:format": "prisma format --schema ./prisma/pgsql/schema.prisma && prisma format --schema ./prisma/sqlite/schema.prisma",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.2",
+    "@chakra-ui/react": "^2.2.1",
+    "@codemirror/lang-javascript": "^6.0.1",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@hapi/boom": "^10.0.0",
+    "@prisma/client": "3.15.2",
+    "@uiw/react-codemirror": "^4.10.3",
+    "cron-parser": "^4.5.0",
+    "dayjs": "^1.11.3",
+    "formik": "^2.2.9",
+    "framer-motion": "^6.3.16",
+    "next": "12.2.0",
+    "next-connect": "^0.12.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-markdown": "8.0.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.42",
+    "@types/react": "18.0.14",
+    "prisma": "3.15.2",
+    "ts-node": "10.8.1",
+    "typescript": "4.7.4"
+  },
+  "prisma": {
+    "mock": "ts-node prisma/mock.ts"
+  }
+}
