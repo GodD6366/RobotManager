@@ -21,10 +21,14 @@ model Session {
 
 model User {
 
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  pwd   String?
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  name       String?
+  pwd        String?
+  telegramId String? @map(name: "telegram_id")
+  wechatId   String? @map(name: "wechat_id")
+  dingId     String? @map(name: "ding_id")
+  feishuId   String? @map(name: "feishu_id")
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
