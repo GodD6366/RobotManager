@@ -17,7 +17,8 @@
     "db:format": "prisma format --schema ./prisma/pgsql/schema.prisma && prisma format --schema ./prisma/sqlite/schema.prisma",
     "build": "next build",
     "build:without-migrate": "npm run db:generate && next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.2",
@@ -43,6 +44,9 @@
   "devDependencies": {
     "@types/node": "16.11.42",
     "@types/react": "18.0.14",
+    "eslint": "^8.19.0",
+    "eslint-config-next": "^12.2.0",
+    "prettier": "^2.7.1",
     "prisma": "3.15.2",
     "ts-node": "10.8.1",
     "typescript": "4.7.4"
