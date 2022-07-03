@@ -13,6 +13,7 @@ const vmThis = {
 };
 
 export function runInVM(fn: string, data: any) {
+  console.log(`🔎🐛 -> file: vm.ts -> line 16 -> runInVM -> data`, data);
   const result = vm.runInNewContext(
     `${fn}
 index.bind(vmThis)(data)`,

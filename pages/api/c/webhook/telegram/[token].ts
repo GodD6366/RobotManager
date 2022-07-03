@@ -10,6 +10,7 @@ export default nc().post(
       token: string;
     };
     const data = req.body as TTelegramBotWebhookMessage;
+    console.log(`🔎🐛 -> file: [token].ts -> line 13 -> data`, data);
 
     const webhook = await prisma.webhook.findFirst({
       where: {
@@ -35,7 +36,7 @@ export default nc().post(
       },
     });
 
-    if (robotType.type === 'tg') {
+    if (robotType.type === 'tg' && data.message.text) {
       let result;
       for (const rule of rules) {
         if (rule.type === 1) {
