@@ -42,7 +42,7 @@ export default nc().post(
         let result;
         for (const rule of rules) {
           if (rule.type === 1) {
-            result = runInVM(rule.func, {
+            result = await runInVM(rule.func, {
               type: robotType.type,
               data,
             });
