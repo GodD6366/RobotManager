@@ -36,22 +36,27 @@ export default nc().post(
       },
     });
 
-    if (robotType.type === 'tg' && data.message.text) {
-      let result;
-      for (const rule of rules) {
-        if (rule.type === 1) {
-          result = runInVM(rule.func, {
-            type: robotType.type,
-            data,
-          });
+    if (robotType.type === 'tg') {
+      // 消息
+      if (data.message) {
+        let result;
+        for (const rule of rules) {
+          if (rule.type === 1) {
+            result = runInVM(rule.func, {
+              type: robotType.type,
+              data,
+            });
 
-          const telegramBot = new TelegramBot(robot.token);
-          await telegramBot.sendMessage(result, data.message.chat.id);
-        }
+            const telegramBot = new TelegramBot(robot.token);
+            await telegramBot.sendMessage(result, data.message.chat.id);
+          }
 
-        if (result) {
-          break;
+          if (result) {
+            break;
+          }
         }
+        // 新成员
+      } else if (data.my_chat_member) {
       }
     }
 

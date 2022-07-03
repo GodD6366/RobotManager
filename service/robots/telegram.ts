@@ -9,6 +9,23 @@ export default class TelegramBot {
     return await this._request_post(`sendMessage`, payload);
   }
 
+  async deleteMessage(messageId: number, chatId: number) {
+    const payload = {
+      message_id: messageId,
+      chat_id: chatId,
+    };
+    return await this._request_post(`deleteMessage`, payload);
+  }
+
+  async forwardMessage(text: string, chatId: number, fromChatId: number) {
+    const payload = {
+      from_chat_id: fromChatId,
+      chat_id: chatId,
+      text,
+    };
+    return await this._request_post(`forwardMessage`, payload);
+  }
+
   async setWebhook(webhook: string) {
     return await this._request_get(`setWebhook?url=${webhook}`);
   }
