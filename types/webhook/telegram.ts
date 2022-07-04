@@ -47,7 +47,19 @@ export type TTelegramBotWebhookMessage = {
       date: Date;
       text: string;
     };
-    text: string;
+    text?: string;
+    sticker?: {
+      width: number;
+      height: number;
+      emoji: string;
+      set_name: string;
+      is_animated: boolean;
+      is_video: boolean;
+      thumb: unknown;
+      file_id: string;
+      file_unique_id: string;
+      file_size: number;
+    };
   };
   my_chat_member?: {
     from: TTelegramBotWebhookMessage_form;

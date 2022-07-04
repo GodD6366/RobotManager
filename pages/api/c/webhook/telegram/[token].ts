@@ -38,7 +38,7 @@ export default nc().post(
 
     if (robotType.type === 'tg') {
       // 消息
-      if (data.message) {
+      if (data.message && data.message.text) {
         let result;
         for (const rule of rules) {
           if (rule.type === 1) {
