@@ -40,7 +40,6 @@ model RobotType {
   id    Int     @id @default(autoincrement())
   type  String
   name  String
-  Robot Robot[]
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
@@ -54,7 +53,6 @@ model Robot {
   secret      String?
   // 关联类型
   robotTypeId Int       @map(name: "robot_type_id")
-  RobotType   RobotType @relation(fields: [robotTypeId], references: [id])
   // 关联所有者
   ownerId     Int
   // 关联规则

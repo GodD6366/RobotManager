@@ -18,9 +18,11 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import StarBorder from '@mui/icons-material/StarBorder';
 import { routes } from '../../routes';
 import * as m_icon from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 export default function DashboardMenu() {
   const [open, setOpen] = React.useState(true);
+  const router = useRouter();
 
   const handleClick = () => {
     setOpen(!open);
@@ -57,17 +59,22 @@ export default function DashboardMenu() {
               </ListSubheader>
             }
           >
-            {route.list.map(({ name, icon }) => {
+            {route.list.map(({ name, icon, path }) => {
               const Icon = _.get(m_icon, icon, null);
               return (
-                <ListItemButton key={name}>
+                <ListItemButton
+                  key={name}
+                  onClick={() => {
+                    router.push(`/${route.path}/${path}`);
+                  }}
+                >
                   <ListItemIcon>{Icon && <Icon />}</ListItemIcon>
                   <ListItemText primary={name} />
                 </ListItemButton>
               );
             })}
 
-            <ListItemButton onClick={handleClick}>
+            {/* <ListItemButton onClick={handleClick}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
@@ -83,7 +90,7 @@ export default function DashboardMenu() {
                   <ListItemText primary='Starred' />
                 </ListItemButton>
               </List>
-            </Collapse>
+            </Collapse> */}
           </List>
         );
       })}

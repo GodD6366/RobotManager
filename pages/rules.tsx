@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { get, post } from '../client';
 import { Prisma, Rule } from '@prisma/client';
 import { utcDayjs } from '../utils';
-import CreateRules from '../client/components/rule/createRules';
+import CreateRules from '../client/components/rule/create';
 
 async function fetchRobots() {
   const res = await get('b/rule/query');

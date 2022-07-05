@@ -48,6 +48,7 @@ export type TTelegramBotWebhookMessage = {
       text: string;
     };
     text?: string;
+    photo?: any;
     sticker?: {
       width: number;
       height: number;

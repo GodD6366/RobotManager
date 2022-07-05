@@ -1,21 +1,22 @@
 export const routes = [
   {
     name: '机器人',
+    path:'robot',
     list: [
       {
-        name: '创建机器人',
-        icon: 'Send',
-        url: '',
+        name: '创建',
+        icon: 'CreateNewFolder',
+        path: 'create',
       },
       {
-        name: '查询机器人',
-        icon: 'Drafts',
-        url: '',
+        name: '查询',
+        icon: 'ScreenSearchDesktop',
+        path: 'query',
       },
       {
-        name: '机器编组',
-        icon: 'MoveToInbox',
-        url: '',
+        name: '编组',
+        icon: 'PrecisionManufacturing',
+        path: 'group',
       },
     ],
   },
