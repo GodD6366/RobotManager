@@ -21,25 +21,26 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.2",
-    "@chakra-ui/react": "^2.2.1",
     "@codemirror/lang-javascript": "^6.0.1",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
     "@hapi/boom": "^10.0.0",
+    "@mui/icons-material": "latest",
+    "@mui/material": "^5.8.6",
     "@prisma/client": "^4.0.0",
     "@uiw/react-codemirror": "^4.10.3",
     "cron-parser": "^4.5.0",
     "dayjs": "^1.11.3",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
+    "lodash": "^4.17.21",
     "nanoid": "^4.0.0",
     "next": "12.2.0",
     "next-auth": "^4.8.0",
     "next-connect": "^0.12.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-markdown": "8.0.3"
+    "react": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "16.11.42",
