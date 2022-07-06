@@ -37,9 +37,9 @@ model User {
 }
 
 model RobotType {
-  id    Int     @id @default(autoincrement())
-  type  String
-  name  String
+  id   Int    @id @default(autoincrement())
+  type String
+  name String
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
@@ -47,21 +47,31 @@ model RobotType {
 }
 
 model Robot {
-  id          Int       @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   token       String?
   secret      String?
   // 关联类型
-  robotTypeId Int       @map(name: "robot_type_id")
+  robotTypeId Int     @map(name: "robot_type_id")
   // 关联所有者
-  ownerId     Int
-  // 关联规则
-  //   Rule        Rule[]
-  //   Webhook     Webhook[]
+  ownerId     Int?     @map(name: "owner_id")
+  // 编组ID
+  groupId     Int?     @map(name: "group_id")
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
   @@map(name: "robots")
+}
+
+// 机器人编组
+// TODO：还没想好怎么设计
+model RobotGroup {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@map(name: "robot-group")
 }
 
 model Rule {

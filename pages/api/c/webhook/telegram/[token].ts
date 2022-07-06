@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import _ from 'lodash';
 import prisma from '../../../../../utils/prisma';
 import { MyNextApiResponse, nc, runInVM } from '../../../../../service';
 import TelegramBot from '../../../../../service/robots/telegram';
@@ -10,7 +11,6 @@ export default nc().post(
       token: string;
     };
     const data = req.body as TTelegramBotWebhookMessage;
-    console.log(`🔎🐛 -> file: [token].ts -> line 13 -> data`, data);
 
     const webhook = await prisma.webhook.findFirst({
       where: {
@@ -36,28 +36,36 @@ export default nc().post(
       },
     });
 
+    console.log(`🔎🐛 -> file: [token].ts -> line 13 -> data`, data);
+
     if (robotType.type === 'tg') {
       // 消息
       if (data.message && data.message.text) {
         let result;
         for (const rule of rules) {
           if (rule.type === 1) {
-            result = await runInVM(rule.func, {
-              type: robotType.type,
-              data,
-            });
+            result = await runInVM(
+              rule.func,
+              {
+                type: robotType.type,
+                data,
+              },
+              robot,
+            );
             console.log(`🔎🐛 -> file: result`, result);
-            const telegramBot = new TelegramBot(robot.token);
-            await telegramBot.sendMessage(result, data.message.chat.id);
-            console.log(`${data.message.chat.id}, 消息回复成功！`);
-          }
-
-          if (result) {
-            break;
+            if (result === true) {
+              // 处理成功，跳过后续处理
+              break;
+            } else if (_.isString(result)) {
+              // 如果返回的是文本 就直接回复消息
+              const telegramBot = new TelegramBot(robot.token);
+              await telegramBot.sendMessage(result, data.message.chat.id);
+              console.log(`${data.message.chat.id}, 消息回复成功！`);
+              break;
+            }
+            // 其他情况 继续执行
           }
         }
-        // 新成员
-      } else if (data.my_chat_member) {
       }
     }
 

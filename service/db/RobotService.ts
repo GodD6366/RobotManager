@@ -13,7 +13,16 @@ export class RobotService {
   }
 
   static async queryAll() {
-    const robotTypeList = await prisma.robot.findMany();
-    return robotTypeList;
+    const robots = await prisma.robot.findMany();
+    return robots;
+  }
+
+  static async query(data: Prisma.RobotWhereInput) {
+    const robot = await prisma.robot.findFirst({
+      where: {
+        ...data,
+      },
+    });
+    return robot;
   }
 }

@@ -35,6 +35,7 @@
     "@uiw/react-codemirror": "^4.10.3",
     "cron-parser": "^4.5.0",
     "dayjs": "^1.11.3",
+    "dingding-robot": "^1.2.2",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
     "lodash": "^4.17.21",

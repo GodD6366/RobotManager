@@ -11,6 +11,9 @@ export default nc().get(async (req: NextApiRequest, res: MyNextApiResponse) => {
       where: {
         robotId: parseInt(robotId),
       },
+      orderBy: {
+        priority: 'desc',
+      },
     },
   );
 
