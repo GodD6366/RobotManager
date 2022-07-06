@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { Drawer, Grid } from '@mui/material';
-import DashboardHeader from './Header';
-import DashboardMenu from './Menu';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { DashboardHeader } from './Header';
+import { DashboardMenu } from './Menu';
 
 const drawerWidth = 240;
 
@@ -57,7 +57,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function DashboardLayout({ children }) {
+export function DashboardLayout({ children }) {
   const [open, setOpen] = React.useState(true);
 
   return (

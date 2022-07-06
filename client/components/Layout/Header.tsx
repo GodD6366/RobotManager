@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function DashboardHeader({ handleShowMenu }) {
+export function DashboardHeader({ handleShowMenu }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -120,20 +120,12 @@ export default function DashboardHeader({ handleShowMenu }) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={4} color='error'>
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton
           size='large'
-          aria-label='show 17 new notifications'
+          aria-label='show new notifications'
           color='inherit'
         >
-          <Badge badgeContent={17} color='error'>
+          <Badge badgeContent={0} color='error'>
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -186,19 +178,10 @@ export default function DashboardHeader({ handleShowMenu }) {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size='large'
-              aria-label='show 4 new mails'
+              aria-label='show new notifications'
               color='inherit'
             >
-              <Badge badgeContent={4} color='error'>
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size='large'
-              aria-label='show 17 new notifications'
-              color='inherit'
-            >
-              <Badge badgeContent={17} color='error'>
+              <Badge badgeContent={0} color='error'>
                 <NotificationsIcon />
               </Badge>
             </IconButton>

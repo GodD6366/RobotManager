@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import { SessionProvider, useSession } from 'next-auth/react';
 import '../styles/globals.css';
-import DashboardLayout from '../client/components/Layout';
+import { DashboardLayout } from '/client';
 
 function App({ Component, pageProps: { session, ...pageProps } }) {
   return (

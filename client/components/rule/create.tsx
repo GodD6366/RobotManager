@@ -14,9 +14,7 @@ async function fetchRobots() {
   return json.data;
 }
 
-export default function CreateRules(
-  props: InferGetStaticPropsType<typeof getStaticProps>,
-) {
+export function CreateRules() {
   const [currentRule, setCurrentRule] = useState<Partiall<Rule>>({
     name: '',
     priority: 1000,
@@ -38,9 +36,3 @@ export default function CreateRules(
 
   return <Button>新建规则</Button>;
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: { allPostsData: {} },
-  };
-};

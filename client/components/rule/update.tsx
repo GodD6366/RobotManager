@@ -28,7 +28,7 @@ const style = {
   pb: 3,
 };
 
-export default function EditRules(
+export function EditRules(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
   const [robots, setRobots] = useState<Array<Robot>>([]);

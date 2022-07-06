@@ -3,9 +3,6 @@ import _ from 'lodash';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {
-  Collapse,
-  Grid,
-  Icon,
   List,
   ListItemButton,
   ListItemIcon,
@@ -13,14 +10,11 @@ import {
   ListSubheader,
   SvgIcon,
 } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import StarBorder from '@mui/icons-material/StarBorder';
 import { routes } from '../../routes';
 import * as m_icon from '@mui/icons-material';
 import { useRouter } from 'next/router';
 
-export default function DashboardMenu() {
+export function DashboardMenu() {
   const [open, setOpen] = React.useState(true);
   const router = useRouter();
 
@@ -50,6 +44,7 @@ export default function DashboardMenu() {
       {routes.map((route) => {
         return (
           <List
+            key={route.path}
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
             component='nav'
             aria-labelledby='nested-list-subheader'
@@ -63,7 +58,7 @@ export default function DashboardMenu() {
               const Icon = _.get(m_icon, icon, null);
               return (
                 <ListItemButton
-                  key={name}
+                  key={path}
                   onClick={() => {
                     router.push(`/${route.path}/${path}`);
                   }}

@@ -1,5 +1,5 @@
-import RuleList from '../../client/components/rule/index';
+import { ListRules } from '/client';
 
 export default function RuleListPage() {
-  return <RuleList />;
+  return <ListRules />;
 }
