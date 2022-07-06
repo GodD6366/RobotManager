@@ -46,9 +46,10 @@ export default nc().post(
               type: robotType.type,
               data,
             });
-
+            console.log(`🔎🐛 -> file: result`, result);
             const telegramBot = new TelegramBot(robot.token);
             await telegramBot.sendMessage(result, data.message.chat.id);
+            console.log(`${data.message.chat.id}, 消息回复成功！`);
           }
 
           if (result) {
