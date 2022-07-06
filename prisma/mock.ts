@@ -25,9 +25,7 @@ async function main() {
     name: 'TG测试机器人',
     ownerId: user.id,
     token: '2007638730:AAFzCVT8BWUbUPkVaiqt0TB7z0qQZtIfzX8',
-    RobotType: {
-      create: robotType,
-    },
+    robotTypeId: 1,
   };
 
   const robot = await prisma.robot.create({

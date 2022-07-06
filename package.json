@@ -12,6 +12,7 @@
     "dev:general": "npm run db:deploy && npm run db:generate && next dev",
     "db:deploy": "prisma migrate deploy --schema ./prisma/$DB_TYPE/schema.prisma",
     "db:generate": "prisma generate --schema ./prisma/$DB_TYPE/schema.prisma",
+    "db:generate:pg": "DB_TYPE=pgsql npm run db:generate",
     "db:init:pg": "DB_TYPE=pgsql npm run db:migrate",
     "db:migrate": "prisma migrate dev --schema ./prisma/$DB_TYPE/schema.prisma",
     "db:format": "prisma format --schema ./prisma/pgsql/schema.prisma && prisma format --schema ./prisma/sqlite/schema.prisma",
@@ -53,7 +54,7 @@
     "ts-node": "10.8.1",
     "typescript": "4.7.4"
   },
-  "prisma": {
+  "prisma-off": {
     "mock": "ts-node prisma/mock.ts"
   }
 }
