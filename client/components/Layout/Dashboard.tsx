@@ -1,0 +1,94 @@
+import * as React from 'react';
+import _ from 'lodash';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  SvgIcon,
+} from '@mui/material';
+import { routes } from '../../routes';
+import * as m_icon from '@mui/icons-material';
+import { useRouter } from 'next/router';
+
+export function DashboardMenu() {
+  const [open, setOpen] = React.useState(true);
+  const router = useRouter();
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+  return (
+    <Box
+      sx={{
+        height: '100vh',
+        boxShadow: '3px 3px 6px 0px #eee',
+      }}
+    >
+      <Typography
+        variant='h6'
+        noWrap
+        component='div'
+        sx={{
+          display: { xs: 'none', sm: 'block' },
+          textAlign: 'center',
+          padding: '20px 0',
+        }}
+      >
+        RobotManager
+      </Typography>
+
+      {routes.map((route) => {
+        return (
+          <List
+            key={route.path}
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            component='nav'
+            aria-labelledby='nested-list-subheader'
+            subheader={
+              <ListSubheader component='div' id='nested-list-subheader'>
+                {route.name}
+              </ListSubheader>
+            }
+          >
+            {route.list.map(({ name, icon, path }) => {
+              const Icon = _.get(m_icon, icon, null);
+              return (
+                <ListItemButton
+                  key={path}
+                  onClick={() => {
+                    router.push(`/${route.path}/${path}`);
+                  }}
+                >
+                  <ListItemIcon>{Icon && <Icon />}</ListItemIcon>
+                  <ListItemText primary={name} />
+                </ListItemButton>
+              );
+            })}
+
+            {/* <ListItemButton onClick={handleClick}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary='Inbox' />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={open} timeout='auto' unmountOnExit>
+              <List component='div' disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <StarBorder />
+                  </ListItemIcon>
+                  <ListItemText primary='Starred' />
+                </ListItemButton>
+              </List>
+            </Collapse> */}
+          </List>
+        );
+      })}
+    </Box>
+  );
+}
