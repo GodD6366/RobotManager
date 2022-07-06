@@ -14,7 +14,7 @@ async function fetchRobots() {
   return json.data;
 }
 
-export function CreateRules() {
+export default function CreateRules() {
   const [currentRule, setCurrentRule] = useState<Partiall<Rule>>({
     name: '',
     priority: 1000,

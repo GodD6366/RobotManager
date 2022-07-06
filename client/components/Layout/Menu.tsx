@@ -14,7 +14,7 @@ import { routes } from '../../routes';
 import * as m_icon from '@mui/icons-material';
 import { useRouter } from 'next/router';
 
-export function DashboardMenu() {
+export default function DashboardMenu() {
   const [open, setOpen] = React.useState(true);
   const router = useRouter();
 

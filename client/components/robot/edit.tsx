@@ -21,7 +21,7 @@ const StyledFormControl = styled(FormControl)`
   margin: 20px 0;
 `;
 
-export function RobotEdit() {
+export default function RobotEdit() {
   const [robotTypes, setRobotTypes] = useState<Array<RobotType>>([]);
 
   const [robotTypeId, setRobotTypeId] = useState('');

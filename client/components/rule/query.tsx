@@ -11,7 +11,7 @@ import { Button } from '@mui/material';
 import { Rule } from '@prisma/client';
 import { get, post } from '../../fetch';
 import { utcDayjs } from '../../../utils';
-import { EditRules } from './update';
+import EditRules from './update';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -57,7 +57,7 @@ async function fetchRules() {
   return json.data;
 }
 
-export function ListRules() {
+export default function ListRules() {
   const [rules, setRules] = useState<Array<Rule>>([]);
   const [editRule, setEditRule] = useState(false);
   const [currentRule, setCurrentRule] = useState<Rule>();

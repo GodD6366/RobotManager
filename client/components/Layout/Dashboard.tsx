@@ -1,94 +1,95 @@
 import * as React from 'react';
-import _ from 'lodash';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import {
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  SvgIcon,
-} from '@mui/material';
-import { routes } from '../../routes';
-import * as m_icon from '@mui/icons-material';
-import { useRouter } from 'next/router';
+import { Drawer, Grid } from '@mui/material';
+import DashboardHeader from './Header';
+import DashboardMenu from './Menu';
+import { styled, useTheme } from '@mui/material/styles';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
-export function DashboardMenu() {
+const drawerWidth = 240;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
+
+export default function DashboardLayout({ children }) {
   const [open, setOpen] = React.useState(true);
-  const router = useRouter();
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
   return (
-    <Box
-      sx={{
-        height: '100vh',
-        boxShadow: '3px 3px 6px 0px #eee',
-      }}
-    >
-      <Typography
-        variant='h6'
-        noWrap
-        component='div'
+    <Box sx={{ display: 'flex' }}>
+      <AppBar position='fixed' open={open}>
+        <DashboardHeader
+          handleShowMenu={() => {
+            setOpen(!open);
+          }}
+        />
+      </AppBar>
+
+      <Drawer
+        variant='persistent'
+        anchor='left'
+        open={open}
         sx={{
-          display: { xs: 'none', sm: 'block' },
-          textAlign: 'center',
-          padding: '20px 0',
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
         }}
       >
-        RobotManager
-      </Typography>
+        <DashboardMenu />
+      </Drawer>
 
-      {routes.map((route) => {
-        return (
-          <List
-            key={route.path}
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-            component='nav'
-            aria-labelledby='nested-list-subheader'
-            subheader={
-              <ListSubheader component='div' id='nested-list-subheader'>
-                {route.name}
-              </ListSubheader>
-            }
-          >
-            {route.list.map(({ name, icon, path }) => {
-              const Icon = _.get(m_icon, icon, null);
-              return (
-                <ListItemButton
-                  key={path}
-                  onClick={() => {
-                    router.push(`/${route.path}/${path}`);
-                  }}
-                >
-                  <ListItemIcon>{Icon && <Icon />}</ListItemIcon>
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              );
-            })}
-
-            {/* <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary='Inbox' />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open} timeout='auto' unmountOnExit>
-              <List component='div' disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText primary='Starred' />
-                </ListItemButton>
-              </List>
-            </Collapse> */}
-          </List>
-        );
-      })}
+      <Main open={open}>
+        <DrawerHeader />
+        {children}
+      </Main>
     </Box>
   );
 }
